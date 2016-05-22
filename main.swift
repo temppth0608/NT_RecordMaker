@@ -68,7 +68,7 @@ public class EmployeeMaker {
       employees.append(Employee(number: number, score: score))
       employeeDictionary[number] = score
     }
-    return employees.sort {$0.0.number < $0.1.number}
+    return employees
   }
   
   private func getUniqueNumber() -> String {
@@ -90,18 +90,25 @@ public class EmployeeMaker {
 
 // main
 let start = NSDate() // <<<<<<<<<< Start time
-
-let empMaker = EmployeeMaker()
-let employees = empMaker.makeEmployeesWithCount(5000)
-
-employees.forEach { emp in
-  emp.printEmplyee()
+var count: Int?
+for arg in Process.arguments {
+  count = Int(arg)
 }
 
-print("총 사원수 : \(employees.count)")
+let empMaker = EmployeeMaker()
 
-let end = NSDate()   // <<<<<<<<<<   end time
-let timeInterval: Double = end.timeIntervalSinceDate(start)
-
-print("Time to evaluate problem: \(timeInterval) seconds")
-
+if let count = count {
+  let employees = empMaker.makeEmployeesWithCount(count)
+  employees.forEach { emp in
+    emp.printEmplyee()
+  }
+  
+  print("총 사원수 : \(employees.count)")
+  
+  let end = NSDate()   // <<<<<<<<<<   end time
+  let timeInterval: Double = end.timeIntervalSinceDate(start)
+  
+  print("Time to evaluate problem: \(timeInterval) seconds")
+} else {
+  print("Please put the argument(employees count)!")
+}
